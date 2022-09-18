@@ -1,0 +1,14 @@
+{
+  "timer": 60,
+  "adder": 10,
+  "records" : [
+    {
+      "date": "1 September",
+      "amount": 20
+    },
+    {
+      "date": "27 Agustus",
+      "amount": 45
+    }
+  ]
+}
