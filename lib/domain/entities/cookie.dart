@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'record.dart';
 
+// ignore: must_be_immutable
 class Cookie extends Equatable {
   int timer;
   int adder;

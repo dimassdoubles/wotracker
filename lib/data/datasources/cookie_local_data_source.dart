@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dartz/dartz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/errors/exception.dart';
 import '../models/record_model.dart';
@@ -28,7 +27,7 @@ class CookieLocalDataSourceImpl implements CookieLocalDataSource {
 
     String stringCookie = jsonEncode(cookieModel.toJson());
     final success = await sharedPreferences.setString("cookie", stringCookie);
-    
+
     if (!success) {
       throw CacheException();
     }
@@ -61,7 +60,7 @@ class CookieLocalDataSourceImpl implements CookieLocalDataSource {
       CookieModel initialCookieModel = CookieModel(
         timer: 30,
         adder: 10,
-        records: [],
+        records: const [],
       );
       return initialCookieModel;
     }

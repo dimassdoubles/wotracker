@@ -37,6 +37,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
+  flutter_inset_box_shadow: ^1.0.8
   flutter_test:
     sdk: flutter
   get_it: ^7.2.0

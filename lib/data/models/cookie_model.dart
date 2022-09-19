@@ -1,5 +1,6 @@
 import '../../domain/entities/cookie.dart';
 
+// ignore: must_be_immutable
 class CookieModel extends Cookie {
   CookieModel(
       {required super.timer, required super.adder, required super.records});

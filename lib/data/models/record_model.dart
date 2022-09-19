@@ -1,5 +1,6 @@
 import '../../domain/entities/record.dart';
 
+// ignore: must_be_immutable
 class RecordModel extends Record {
   RecordModel(super.date, super.amount);
 

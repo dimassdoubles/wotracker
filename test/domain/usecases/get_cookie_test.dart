@@ -4,13 +4,11 @@ import 'package:mocktail/mocktail.dart';
 import 'package:wotracker/domain/entities/cookie.dart';
 import 'package:wotracker/domain/entities/record.dart';
 import 'package:wotracker/domain/repositories/cookie_repository.dart';
-import 'package:wotracker/domain/usecases/get_cookie.dart';
 
 class MockCookieRepository extends Mock implements CookieRepository {}
 
 void main() {
   MockCookieRepository mockRepository = MockCookieRepository();
-  GetCookie getCookie = GetCookie(mockRepository);
 
   Cookie testCookie = Cookie(
     timer: 60,

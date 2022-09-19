@@ -1,10 +1,25 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wotracker/core/constants/colors.dart';
+import 'package:wotracker/core/constants/text_styles.dart';
+import 'package:wotracker/domain/usecases/get_today_date.dart';
 import 'package:wotracker/injection.dart';
 import 'package:wotracker/presentation/bloc/cookie_event.dart';
 import 'package:wotracker/presentation/bloc/cookie_state.dart';
+import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
 import '../bloc/cookie_bloc.dart';
+
+List testList = [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+];
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,6 +30,7 @@ class HomePage extends StatelessWidget {
     bloc.add(GetCookieEvent());
 
     return Scaffold(
+      backgroundColor: AppColor().background,
       body: SafeArea(
         child: Column(
           children: [
@@ -22,14 +38,23 @@ class HomePage extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Container(
-                padding: EdgeInsets.all(16),
-                color: Colors.red,
-                child: Container(
-                  width: double.infinity,
-                  color: Colors.white,
-                  child: Center(
-                    child: Text('date'),
-                  ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                ),
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Today',
+                      style: AppText().subHeadlineMedium,
+                    ),
+                    Text(
+                      getTodayDate(),
+                      style: AppText().headlineBold,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -38,13 +63,29 @@ class HomePage extends StatelessWidget {
             Expanded(
               flex: 3,
               child: Container(
-                padding: EdgeInsets.all(16),
-                color: Colors.green,
-                child: Container(
-                  color: Colors.white,
-                  width: double.infinity,
-                  child: Center(
-                    child: Text('records'),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 24,
+                ),
+                child: NeomorphismButton(
+                  borderRadius: 25,
+                  inset: true,
+                  child: ListWheelScrollView(
+                    itemExtent: 100,
+                    physics: const FixedExtentScrollPhysics(),
+                    // diameterRatio: 1.5,
+                    children: const [
+                      RecordItem(),
+                      RecordItem(),
+                      RecordItem(),
+                      RecordItem(),
+                      RecordItem(),
+                      RecordItem(),
+                      RecordItem(),
+                      RecordItem(),
+                      RecordItem(),
+                      RecordItem(),
+                    ],
                   ),
                 ),
               ),
@@ -54,32 +95,34 @@ class HomePage extends StatelessWidget {
             Expanded(
               flex: 7,
               child: Container(
-                padding: EdgeInsets.all(16),
-                color: Colors.blue,
+                padding: const EdgeInsets.all(16),
+                // color: Colors.blue,
                 child: Column(
                   children: [
                     Expanded(
                       child: AspectRatio(
                         aspectRatio: 1,
-                        child: Container(
-                          color: Colors.white,
-                          child: Center(
-                            child: Text('timer'),
+                        child: NeomorphismButton(
+                          child: Text(
+                            '60',
+                            style: AppText().timerBold,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
-                    Container(
-                      color: Colors.white,
+                    SizedBox(
                       width: double.infinity,
                       child: Center(
-                        child: Text('info'),
+                        child: Text(
+                          'Click To Rest',
+                          style: AppText().labelMedium,
+                        ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 32,
                     ),
                   ],
@@ -91,27 +134,31 @@ class HomePage extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Container(
-                padding: EdgeInsets.all(16),
-                color: Colors.red,
+                padding: const EdgeInsets.all(16),
+                // color: Colors.red,
                 child: Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        color: Colors.white,
-                        child: Center(
-                          child: Text('done'),
+                      child: NeomorphismButton(
+                        child: Text(
+                          'Done',
+                          style: AppText().headlineBoldBlue,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     AspectRatio(
                       aspectRatio: 1 / 1,
-                      child: Container(
-                        color: Colors.white,
+                      child: NeomorphismButton(
+                        inset: true,
+                        borderRadius: 15,
                         child: Center(
-                          child: Text('adder'),
+                          child: Text(
+                            '10',
+                            style: AppText().headlineBold,
+                          ),
                         ),
                       ),
                     ),
@@ -120,6 +167,122 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class RecordItem extends StatelessWidget {
+  const RecordItem({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Today',
+            style: AppText().headlineBold,
+          ),
+          Text(
+            '15',
+            style: AppText().headlineBold,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class NeomorphismButton extends StatefulWidget {
+  bool inset;
+  double borderRadius;
+  Widget child;
+  NeomorphismButton({
+    Key? key,
+    required this.child,
+    this.inset = false,
+    this.borderRadius = 250,
+  }) : super(key: key);
+
+  @override
+  State<NeomorphismButton> createState() => _NeomorphismButtonState();
+}
+
+class _NeomorphismButtonState extends State<NeomorphismButton> {
+  late bool _inset;
+  late double _borderRadius;
+
+  final double _blurRadius = 20;
+  final double _opacity = 0.75;
+  final Offset _offset = const Offset(9, 12);
+
+  bool onTap = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _inset = widget.inset;
+    _borderRadius = widget.borderRadius;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: GestureDetector(
+        onTapCancel: () {
+          if (!_inset) {
+            setState(() {
+              onTap = false;
+            });
+          }
+        },
+        onTapDown: (details) {
+          if (!_inset) {
+            setState(() {
+              onTap = true;
+            });
+          }
+        },
+        onTapUp: (details) {
+          if (!_inset) {
+            setState(() {
+              onTap = false;
+            });
+          }
+        },
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(_borderRadius),
+            color: AppColor().background,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.white.withOpacity(onTap ? 0 : _opacity),
+                offset: -_offset,
+                blurRadius: _blurRadius,
+                inset: _inset,
+              ),
+              BoxShadow(
+                color: AppColor()
+                    .backgroundDarken
+                    .withOpacity(onTap ? 0 : _opacity),
+                offset: _offset,
+                blurRadius: _blurRadius,
+                inset: _inset,
+              ),
+            ],
+          ),
+          child: Center(
+            child: widget.child,
+          ),
         ),
       ),
     );

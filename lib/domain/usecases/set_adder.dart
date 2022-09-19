@@ -15,7 +15,8 @@ class SetAdder {
     // print("adder baru :${currentCookie.adder}");
     try {
       final result = await repository.cacheCookie(currentCookie);
-      if (result == Right(null)) {
+      // ignore: unrelated_type_equality_checks
+      if (result == const Right(null)) {
         return Right(currentCookie);
       } else {
         throw CacheException();

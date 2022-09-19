@@ -8,7 +8,6 @@ import 'package:wotracker/domain/usecases/get_cookie.dart';
 import 'package:wotracker/domain/usecases/set_adder.dart';
 import 'package:wotracker/presentation/bloc/cookie_bloc.dart';
 
-import 'core/constants/colors.dart';
 import 'domain/usecases/set_timer.dart';
 
 final getIt = GetIt.instance;

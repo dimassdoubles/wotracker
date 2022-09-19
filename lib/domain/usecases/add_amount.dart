@@ -15,7 +15,8 @@ class AddAmount {
     // print("today amount baru: ${currentCookie.records[0].amount}");
     try {
       final result = await repository.cacheCookie(currentCookie);
-      if (result == Right(null)) {
+      // ignore: unrelated_type_equality_checks
+      if (result == const Right(null)) {
         return Right(currentCookie);
       } else {
         throw CacheException();

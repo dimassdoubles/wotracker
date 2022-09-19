@@ -83,7 +83,7 @@ class CookieBloc extends Bloc<CookieEvent, CookieState> {
             final failureOrCookieWhenSetTimer = await setTimer(
                 newTimer: event.newTimer, currentCookie: currentCookie);
             failureOrCookieWhenSetTimer.fold(
-              await (failure) async {
+              (failure) async {
                 emit(
                   ErrorState("Gagal Set Timer"),
                 );

@@ -26,7 +26,7 @@ void main() {
   CookieModel initialCookieModel = CookieModel(
     timer: 30,
     adder: 10,
-    records: [],
+    records: const [],
   );
 
   CookieModel cookieModel = CookieModel.fromJson(mapCookie);
@@ -72,7 +72,6 @@ void main() {
         (invocation) async => true,
       );
 
-      final result = await cookieLocalDataSourceImpl.cacheCookie(cookieModel);
       verify(() => sharedPreferences.setString("cookie", stringCookie));
       verifyNoMoreInteractions(sharedPreferences);
     },
