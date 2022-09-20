@@ -1,16 +1,28 @@
-# wotracker
+# WOTRACKER
+## Track your workout
 
-A new Flutter project.
+![image](https://user-images.githubusercontent.com/76572359/191212757-85aa8f49-c8e1-4240-9a0d-9ec669bdb538.png)
 
-## Getting Started
+WOTRACKER adalah aplikasi yang digunakan untuk membantu pada saat melakukan workout.
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- Timer istrirahat, digunakan untuk mengatur berapa lama istirahat tiap set work out.
+- Record, digunakan untuk mencatat progress harian (contoh: 100 pull up per hari ini)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Tech
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Aplikasi ini dibuat menggunakan Flutter 3.3.2.
+
+## Plugins
+-  bloc: ^8.1.0
+-  bloc_test: ^9.1.0
+-  cupertino_icons: ^1.0.2
+-  dartz: ^0.10.1
+-  equatable: ^2.0.5
+-  flutter_bloc: ^8.1.1
+-  flutter_inset_box_shadow: ^1.0.8
+-  get_it: ^7.2.0
+-  intl: ^0.17.0
+-  mocktail: ^0.3.0
+-  shared_preferences: ^2.0.15
