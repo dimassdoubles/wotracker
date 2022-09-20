@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-
-// ignore: must_be_immutable
 class Record extends Equatable {
   // format date: "1 September"
   String date;

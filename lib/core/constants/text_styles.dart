@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wotracker/core/constants/colors.dart';
+import 'colors.dart';
 
 class AppText {
   TextStyle headlineMedium = TextStyle(

@@ -71,7 +71,7 @@ void main() {
       ).thenAnswer(
         (invocation) async => true,
       );
-
+      await cookieLocalDataSourceImpl.cacheCookie(cookieModel);
       verify(() => sharedPreferences.setString("cookie", stringCookie));
       verifyNoMoreInteractions(sharedPreferences);
     },

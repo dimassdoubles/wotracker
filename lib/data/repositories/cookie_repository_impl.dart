@@ -1,3 +1,5 @@
+import '../models/cookie_model.dart';
+
 import '../../core/errors/exception.dart';
 import '../models/record_model.dart';
 import '../../domain/entities/cookie.dart';
@@ -5,7 +7,7 @@ import '../../core/errors/failure.dart';
 import 'package:dartz/dartz.dart';
 import '../../domain/entities/record.dart';
 import '../../domain/repositories/cookie_repository.dart';
-import 'package:wotracker/domain/usecases/get_today_date.dart';
+import '../../domain/usecases/get_today_date.dart';
 
 import '../datasources/cookie_local_data_source.dart';
 
@@ -28,15 +30,12 @@ class CookieRepositoryImpl implements CookieRepository {
   Future<Either<Failure, Cookie>> getCookie() async {
     try {
       final result = await localDataSource.getCookie();
-      // print("result before: ${result}");
+      // final typeRecords = result.records.runtimeType;
       if (!_isTodayRecordCreated(result.records)) {
         final today = getTodayDate();
-        result.records.insert(
-          0,
-          RecordModel(today, 0),
-        );
+        List<Record> newRecords = [RecordModel(today, 0), ...result.records];
+        result.records = newRecords;
       }
-      // print("result after: ${result}");
       return Right(result);
     } on CacheException {
       return Left(CacheFailure());

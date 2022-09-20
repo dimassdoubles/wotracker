@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:wotracker/domain/usecases/add_amount.dart';
-import 'package:wotracker/domain/usecases/get_cookie.dart';
-import 'package:wotracker/domain/usecases/set_adder.dart';
-import 'package:wotracker/domain/usecases/set_timer.dart';
+import '../../domain/usecases/add_amount.dart';
+import '../../domain/usecases/get_cookie.dart';
+import '../../domain/usecases/set_adder.dart';
+import '../../domain/usecases/set_timer.dart';
 
 import 'cookie_event.dart';
 import 'cookie_state.dart';

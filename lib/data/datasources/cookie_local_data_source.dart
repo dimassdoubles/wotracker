@@ -35,17 +35,10 @@ class CookieLocalDataSourceImpl implements CookieLocalDataSource {
 
   @override
   Future<CookieModel> getCookie() async {
-    final String? cookieString = sharedPreferences.getString('cookie');
+    String? cookieString = sharedPreferences.getString('cookie');
 
     if (cookieString != null) {
       Map<String, dynamic> response = jsonDecode(cookieString);
-
-      // List<Map<String, dynamic>> recordsJson = response["records"];
-      // List<RecordModel> records = response["records"]
-      //     .map(
-      //       (e) => RecordModel.fromJson(e),
-      //     )
-      //     .toList();
 
       List<RecordModel> records = [];
 

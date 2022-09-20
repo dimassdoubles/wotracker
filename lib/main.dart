@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wotracker/injection.dart' as injection;
-import 'package:wotracker/presentation/pages/home_page.dart';
+import 'injection.dart' as injection;
+import 'presentation/pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

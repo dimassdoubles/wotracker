@@ -1,25 +1,17 @@
-// import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wotracker/core/constants/colors.dart';
-import 'package:wotracker/core/constants/text_styles.dart';
-import 'package:wotracker/domain/usecases/get_today_date.dart';
-import 'package:wotracker/injection.dart';
-import 'package:wotracker/presentation/bloc/cookie_event.dart';
-import 'package:wotracker/presentation/bloc/cookie_state.dart';
+import '../../core/constants/colors.dart';
+import '../../core/constants/text_styles.dart';
+import '../../domain/usecases/get_today_date.dart';
+import '../../injection.dart';
+import '../bloc/cookie_event.dart';
+import '../bloc/cookie_state.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import '../cubit/countdown_cubit.dart';
+import '../widgets/done_button.dart';
+import '../widgets/rest_timer.dart';
 
 import '../bloc/cookie_bloc.dart';
-
-List testList = [
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-];
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -70,22 +62,31 @@ class HomePage extends StatelessWidget {
                 child: NeomorphismButton(
                   borderRadius: 25,
                   inset: true,
-                  child: ListWheelScrollView(
-                    itemExtent: 100,
-                    physics: const FixedExtentScrollPhysics(),
-                    // diameterRatio: 1.5,
-                    children: const [
-                      RecordItem(),
-                      RecordItem(),
-                      RecordItem(),
-                      RecordItem(),
-                      RecordItem(),
-                      RecordItem(),
-                      RecordItem(),
-                      RecordItem(),
-                      RecordItem(),
-                      RecordItem(),
-                    ],
+                  child: BlocBuilder(
+                    bloc: bloc,
+                    builder: (context, state) {
+                      if (state is LoadedState) {
+                        return ListWheelScrollView(
+                          itemExtent: 100,
+                          physics: const FixedExtentScrollPhysics(),
+                          children: state.cookie.records
+                              .map(
+                                (e) => RecordItem(
+                                  date: e.date,
+                                  amount: e.amount,
+                                ),
+                              )
+                              .toList(),
+                        );
+                      } else {
+                        return Center(
+                          child: Text(
+                            '-',
+                            style: AppText().headlineBold,
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ),
               ),
@@ -96,17 +97,22 @@ class HomePage extends StatelessWidget {
               flex: 7,
               child: Container(
                 padding: const EdgeInsets.all(16),
-                // color: Colors.blue,
                 child: Column(
                   children: [
                     Expanded(
                       child: AspectRatio(
                         aspectRatio: 1,
-                        child: NeomorphismButton(
-                          child: Text(
-                            '60',
-                            style: AppText().timerBold,
-                          ),
+                        child: BlocBuilder(
+                          bloc: bloc,
+                          builder: (context, state) {
+                            if (state is LoadedState) {
+                              getIt<CountdownCubit>()
+                                  .setTimer(state.cookie.timer);
+                            } else {
+                              getIt<CountdownCubit>().setTimer(15);
+                            }
+                            return RestTimer();
+                          },
                         ),
                       ),
                     ),
@@ -135,29 +141,57 @@ class HomePage extends StatelessWidget {
               flex: 2,
               child: Container(
                 padding: const EdgeInsets.all(16),
-                // color: Colors.red,
                 child: Row(
                   children: [
                     Expanded(
-                      child: NeomorphismButton(
-                        child: Text(
-                          'Done',
-                          style: AppText().headlineBoldBlue,
-                        ),
-                      ),
+                      child: DoneButton(),
                     ),
                     const SizedBox(
                       width: 16,
                     ),
                     AspectRatio(
                       aspectRatio: 1 / 1,
-                      child: NeomorphismButton(
-                        inset: true,
-                        borderRadius: 15,
-                        child: Center(
-                          child: Text(
-                            '10',
-                            style: AppText().headlineBold,
+                      child: GestureDetector(
+                        onLongPress: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(
+                                'Set Adder',
+                                style: AppText().headlineBold,
+                              ),
+                              content: TextField(
+                                autofocus: true,
+                                keyboardType: TextInputType.number,
+                                onSubmitted: (value) {
+                                  getIt<CookieBloc>().add(
+                                    SetCookieAdderEvent(
+                                      int.parse(value),
+                                    ),
+                                  );
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                        child: NeomorphismButton(
+                          inset: true,
+                          borderRadius: 15,
+                          child: Center(
+                            child: BlocBuilder(
+                              bloc: bloc,
+                              builder: (context, state) {
+                                if (state is LoadedState) {
+                                  return Text(
+                                    "${state.cookie.adder}",
+                                    style: AppText().headlineBold,
+                                  );
+                                } else {
+                                  return const SizedBox();
+                                }
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -174,8 +208,12 @@ class HomePage extends StatelessWidget {
 }
 
 class RecordItem extends StatelessWidget {
-  const RecordItem({
+  String date;
+  int amount;
+  RecordItem({
     Key? key,
+    required this.date,
+    required this.amount,
   }) : super(key: key);
 
   @override
@@ -186,11 +224,11 @@ class RecordItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Today',
+            date,
             style: AppText().headlineBold,
           ),
           Text(
-            '15',
+            "$amount",
             style: AppText().headlineBold,
           ),
         ],
@@ -283,92 +321,6 @@ class _NeomorphismButtonState extends State<NeomorphismButton> {
           child: Center(
             child: widget.child,
           ),
-        ),
-      ),
-    );
-  }
-}
-
-// the widget i use for test the bloc
-class TestBlocWidget extends StatelessWidget {
-  const TestBlocWidget({
-    Key? key,
-    required this.bloc,
-  }) : super(key: key);
-
-  final CookieBloc bloc;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: BlocBuilder(
-          bloc: bloc,
-          builder: (context, state) {
-            if (state is LoadedState) {
-              return Column(
-                children: [
-                  const SizedBox(
-                    height: 72,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: state.cookie.records.length,
-                      itemBuilder: (context, index) => Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(state.cookie.records[index].date),
-                          Text("${state.cookie.records[index].amount}"),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 72,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      bloc.add(
-                        SetCookieTimerEvent(state.cookie.timer + 5),
-                      );
-                    },
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: Text("TIMER : ${state.cookie.timer}"),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      bloc.add(
-                        AddCookieAmountEvent(),
-                      );
-                    },
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: Text("ADDER : ${state.cookie.adder}"),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 48,
-                  ),
-                ],
-              );
-            } else if (state is ErrorState) {
-              return Center(child: Text("ERROR: ${state.message}"));
-            } else {
-              return const Center(
-                child: Text("Loading"),
-              );
-            }
-          },
         ),
       ),
     );

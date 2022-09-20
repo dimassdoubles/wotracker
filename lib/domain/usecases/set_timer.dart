@@ -13,7 +13,6 @@ class SetTimer {
   Future<Either<Failure, Cookie>> call(
       {required Cookie currentCookie, required int newTimer}) async {
     currentCookie.timer = newTimer;
-    // print("timer baru: ${currentCookie.timer}");
     try {
       final result = await repository.cacheCookie(currentCookie);
       // ignore: unrelated_type_equality_checks

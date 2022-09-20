@@ -12,7 +12,6 @@ class AddAmount {
 
   Future<Either<Failure, Cookie>> call(Cookie currentCookie) async {
     currentCookie.records[0].amount += currentCookie.adder;
-    // print("today amount baru: ${currentCookie.records[0].amount}");
     try {
       final result = await repository.cacheCookie(currentCookie);
       // ignore: unrelated_type_equality_checks
