@@ -1,7 +1,7 @@
 # WOTRACKER
 ## Track your workout
 
-![image](https://user-images.githubusercontent.com/76572359/191212757-85aa8f49-c8e1-4240-9a0d-9ec669bdb538.png)
+<img src="https://user-images.githubusercontent.com/76572359/195049151-2f658094-0b7e-483c-953d-187f9cf49f74.png" width="200">
 
 WOTRACKER adalah aplikasi yang digunakan untuk membantu pada saat melakukan workout.
 
